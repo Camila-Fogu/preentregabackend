@@ -1,4 +1,5 @@
 import fs from "fs";
+import { v4 as uuidv4 } from "uuid";
 
 export default class ProductManager {
   constructor(path) {
@@ -21,10 +22,12 @@ export default class ProductManager {
       const products = await this.getProducts();
       const newproduct = {
         ...product,
-        id: products.length + 1,
+        id: uuidv4(),
+        status: true,
       };
       products.push(newproduct);
       await fs.promises.writeFile(this.path, JSON.stringify(products));
+      return newproduct;
     } catch (err) {
       console.log(err);
     }
@@ -74,52 +77,3 @@ export default class ProductManager {
     }
   }
 }
-
-/*
-const manager = new ProductManager("./products.json");
-
-const product1 = {
-  title: "Producto 1",
-  description: "Descripcion de producto 1",
-  price: 20,
-  thumbnail: "img1.jpg",
-  code: "P1",
-  stock: 8,
-};
-
-const product2 = {
-  title: "Producto 2",
-  description: "Descripcion de producto 2",
-  price: 150,
-  thumbnail: "img2.jpg",
-  code: "P2",
-  stock: 10,
-};
-
-const product3 = {
-  title: "Producto 2",
-  description: "Descripcion de producto 3",
-  price: 75,
-  thumbnail: "img3.jpg",
-  code: "P3",
-  stock: 15,
-};
-
-const actualizarProd = {
-  title: "Producto 3",
-};
-
-const test = async () => {
-  console.log(await manager.getProducts());
-  await manager.addProduct(product1);
-  await manager.addProduct(product2);
-  await manager.addProduct(product3);
-  console.log(await manager.getProducts());
-  console.log(await manager.getProductById(1));
-  console.log(await manager.deleteProduct(2));
-  console.log(await manager.getProducts());
-  console.log(await manager.updateProduct(3, actualizarProd));
-  console.log(await manager.getProducts());
-};
-test();
-*/
