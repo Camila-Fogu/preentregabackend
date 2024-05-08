@@ -31,4 +31,16 @@ export default class CartsManager {
       console.log(err);
     }
   }
+
+  async getCartById(id) {
+    try {
+      const carts = await this.getCarts();
+      const cartById = carts.find((cart) => cart.id === id);
+      if (!cartById) {
+        return null;
+      } else return cartById;
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
