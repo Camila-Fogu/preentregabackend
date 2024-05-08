@@ -38,7 +38,7 @@ export default class CartsManager {
       const cartById = carts.find((cart) => cart.id === id);
       if (!cartById) {
         return null;
-      } else return cartById;
+      } else return cartById.products;
     } catch (err) {
       console.log(err);
     }
