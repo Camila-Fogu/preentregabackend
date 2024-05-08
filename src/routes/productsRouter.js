@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:pid", async (req, res) => {
   try {
-    const id = parseInt(req.params.pid);
+    const id = req.params.pid;
     const product = await productManager.getProductById(id);
     if (!product) {
       res.status(404).json({ msg: "Producto no encontrado" });
@@ -45,7 +45,7 @@ router.post("/", productValidator, async (req, res) => {
 
 router.put("/:pid", async (req, res) => {
   try {
-    const id = parseInt(req.params.pid);
+    const id = req.params.pid;
     const product = await productManager.updateProduct(id, req.body);
     if (!product) res.status(404).json({ msg: "Error updating product" });
     res.status(200).json(product);
@@ -56,7 +56,7 @@ router.put("/:pid", async (req, res) => {
 
 router.delete("/:pid", async (req, res) => {
   try {
-    const id = parseInt(req.params.pid);
+    const id = req.params.pid;
     const product = await productManager.deleteProduct(id);
     if (!product) res.status(404).json({ msg: "Error delete product" });
     res.status(200).json(product);
