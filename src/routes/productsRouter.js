@@ -2,6 +2,7 @@ import { Router } from "express";
 const router = Router();
 import ProductManager from "../manager/ProductManager.js";
 const productManager = new ProductManager("../src/db/products.json");
+import { productValidator } from "../middlewares/productValidator.js";
 
 //Endpoints
 router.get("/", async (req, res) => {
@@ -31,10 +32,12 @@ router.get("/:pid", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", productValidator, async (req, res) => {
   try {
-    const product = await productManager.addProduct(req.body);
-    res.status(200).json(product);
+    const product = req.body;
+    const status = req.body.status;
+    const newProduct = await productManager.addProduct(product);
+    res.status(200).json(newProduct);
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
