@@ -34,4 +34,15 @@ router.get("/:cid", async (req, res) => {
   }
 });
 
+router.post("/:cid/product/:pid", async (req, res) => {
+  try {
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+    const cart = await cartsManager.addProductInCart(cid, pid);
+    res.status(200).json(cart);
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+});
+
 export default router;

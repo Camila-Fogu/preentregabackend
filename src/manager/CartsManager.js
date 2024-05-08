@@ -38,7 +38,33 @@ export default class CartsManager {
       const cartById = carts.find((cart) => cart.id === id);
       if (!cartById) {
         return null;
-      } else return cartById.products;
+      } else return cartById;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async addProductInCart(cid, pid) {
+    try {
+      const cartById = await this.getCartById(cid);
+      if (!cartById) return "El carrito no existe";
+      const productExist = cartById.products.find((prod) => prod.id === pid);
+      if (!productExist) {
+        const newProduct = {
+          id: pid,
+          quantity: 1,
+        };
+        cartById.products.push(newProduct);
+      } else {
+        productExist.quantity++;
+      }
+      const carts = await this.getCarts();
+      const updatedCarts = carts.map((cart) => {
+        if (cart.id === cid) return cartById;
+        return cart;
+      });
+      await fs.promises.writeFile(this.path, JSON.stringify(updatedCarts));
+      return cartById;
     } catch (err) {
       console.log(err);
     }
