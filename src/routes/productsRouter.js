@@ -35,7 +35,6 @@ router.get("/:pid", async (req, res) => {
 router.post("/", productValidator, async (req, res) => {
   try {
     const product = req.body;
-    const status = req.body.status;
     const newProduct = await productManager.addProduct(product);
     res.status(200).json(newProduct);
   } catch (err) {
