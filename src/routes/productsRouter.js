@@ -1,9 +1,9 @@
-import { Router } from "express";
+/*import { Router } from "express";
 const router = Router();
 import ProductManager from "../manager/ProductManager.js";
 const productManager = new ProductManager("../src/db/products.json");
 import { productValidator } from "../middlewares/productValidator.js";
-
+import { uploader } from "../middlewares/multer.js";
 //Endpoints
 router.get("/", async (req, res) => {
   try {
@@ -42,6 +42,18 @@ router.post("/", productValidator, async (req, res) => {
   }
 });
 
+router.post("/profile", uploader.array("image"), async (req, res) => {
+  try {
+    console.log(req.files);
+    const product = req.body;
+    product.image = req.files.path;
+    const newProduct = await productManager.addProduct(product);
+    res.status(200).json(newProduct);
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+});
+
 router.put("/:pid", async (req, res) => {
   try {
     const id = req.params.pid;
@@ -64,4 +76,4 @@ router.delete("/:pid", async (req, res) => {
   }
 });
 
-export default router;
+export default router;*/
