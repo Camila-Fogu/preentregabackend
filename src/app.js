@@ -1,13 +1,9 @@
 import express from "express";
-/*import productsRouter from "./routes/productsRouter.js";
-import cartsRouter from "./routes/cartsRouter.js";*/
-import handlebars from "express-handlebars";
+import productsRouter from "./routes/productsRouter.js";
 import { __dirname } from "./utils.js";
-import viewsRouter from "./routes/views.router.js";
-//import inicio base en mongo atlas
-import { initMongoDB } from "./db/databases.js";
-//errorHandler
+import { initMongoDB } from "./daos/mongodb/connection.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
+import "dotenv/config";
 
 //Server HTTP
 const app = express();
@@ -17,15 +13,8 @@ const port = 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
-/*app.use("/api/products", productsRouter);
-app.use("/api/carts", cartsRouter);*/
 
-//handlebars
-app.engine("handlebars", handlebars.engine());
-app.set("view engine", "handlebars");
-app.set("views", __dirname + "/views");
-
-app.use("/", viewsRouter);
+app.use("/api/products", productsRouter);
 
 app.use(errorHandler);
 

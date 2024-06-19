@@ -1,19 +1,18 @@
-import ProductManager from "../manager/ProductManager.js";
-const productManager = new ProductManager();
+import * as service from "../services/product.services.js";
 
-export const getAllProducts = async (req, res, next) => {
+export const getAll = async (req, res, next) => {
   try {
-    const products = await productManager.getAll();
+    const products = await service.getAll();
     res.json(products);
   } catch (err) {
     next(err);
   }
 };
 
-export const getProductById = async (req, res, next) => {
+export const getById = async (req, res, next) => {
   try {
     const id = req.params.pid;
-    const product = await productManager.getById(id);
+    const product = await service.getById(id);
     if (!product) {
       res.status(404).json({ msg: "Producto no encontrado" });
     } else res.status(200).json(product);
@@ -22,10 +21,10 @@ export const getProductById = async (req, res, next) => {
   }
 };
 
-export const createProduct = async (req, res, next) => {
+export const create = async (req, res, next) => {
   try {
     const product = req.body;
-    const newProduct = await productManager.create(product);
+    const newProduct = await service.create(product);
 
     if (!newProduct) {
       res.status(404).json({ msg: "Error al crear el producto" });
@@ -35,11 +34,11 @@ export const createProduct = async (req, res, next) => {
   }
 };
 
-export const updateProduct = async (req, res, next) => {
+export const update = async (req, res, next) => {
   try {
     const id = req.params.pid;
     const change = req.body;
-    const product = await productManager.update(id, change);
+    const product = await service.update(id, change);
     if (!product) {
       res.status(404).json({ msg: "Error al actualizar el producto" });
     } else res.status(200).json(product);
@@ -48,10 +47,10 @@ export const updateProduct = async (req, res, next) => {
   }
 };
 
-export const deleteProduct = async (req, res, next) => {
+export const remove = async (req, res, next) => {
   try {
     const id = req.params.pid;
-    const product = await productManager.delete(id);
+    const product = await service.remove(id);
     if (!product) {
       res.status(404).json({ msg: "Error al eliminar el producto" });
     } else res.status(200).json(product);
